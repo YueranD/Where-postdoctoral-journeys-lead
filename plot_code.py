@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.gridspec as gridspec
+%matplotlib inline
 
 INDIR_DATA = 'data/'
 
@@ -19,7 +20,7 @@ def fig_1(df1, df2, props):
     sns.scatterplot(
         data=df1, 
         x="Imbalance_index_avg", 
-        y="Fraction", 
+        y="Percentage", 
         size = 'count',
         sizes = (80,100),
         legend = False,
@@ -27,10 +28,10 @@ def fig_1(df1, df2, props):
     sns.lineplot(
         data=df1, 
         x="Imbalance_index_avg", 
-        y="Fraction", 
+        y="Percentage", 
         linewidth=props['linewidth'],
         ax=ax1)
-    xnames = [-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4]
+    xnames = [-2.8, -0.8, -0.2, 0, 0.2, 0.4, 0.6, 0.8]
     plt.xticks(xnames)
     plt.xlabel('Relative change in publication rate\nbetween Ph.D. student and postdoc', fontsize=props['xylabel'])
     plt.ylabel('Percentage staying in academia', fontsize=props['xylabel'])
@@ -39,8 +40,8 @@ def fig_1(df1, df2, props):
     ax2 = plt.subplot(gs[1])
     plt.errorbar(
         x=df2['Hit papers'], 
-        y=df2['Fraction'], 
-        yerr=df2['hindex_se'], 
+        y=df2['Percentage'], 
+        # yerr=df2['hindex_se'], 
         fmt=props['fmt'][0],
     )
     plt.xlabel('Hit papers', fontsize=props['xylabel'])
@@ -174,8 +175,9 @@ if __name__ == "__main__":
     df_hit = pd.read_csv(INDIR_DATA+'fig1B_plot_hitpapers.csv')
     fig_1(df_dropout, df_hit, plot_props)
     
+    df_hit_h = pd.read_csv(INDIR_DATA+'fig2A_plot_hitpapers.csv')
     df_topical_diff = pd.read_csv(INDIR_DATA+'fig2B_plot_topical_difference.csv')
     df_mobility_u = pd.read_csv(INDIR_DATA+'fig2C_plot_mobility_university.csv')
     df_mobility_t = pd.read_csv(INDIR_DATA+'fig2D_plot_mobility_top.csv')
-    fig_2(df_hit, df_topical_diff, df_mobility_u, df_mobility_t, plot_props)
+    fig_2(df_hit_h, df_topical_diff, df_mobility_u, df_mobility_t, plot_props)
 # %%
